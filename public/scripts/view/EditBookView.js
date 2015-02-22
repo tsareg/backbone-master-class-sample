@@ -21,11 +21,16 @@ var EditBookView = Backbone.View.extend({
     },
 
     saveBook: function() {
-        this.model.set({
-            isbn: this.$("[name='isbn']").val(),
-            title: this.$("[name='title']").val(),
-            author: this.$("[name='author']").val()
-        });
+        var obj = {
+            title: this.$("input[name='title']").val(),
+            author: this.$("input[name='author']").val()
+        };
+
+        if (this.$("input[name='isbn']").length) {
+            obj.isbn = this.$("[name='isbn']").val();
+        }
+
+        this.model.set(obj);
 
         if (this.model.isValid(true)) {
             this.collection.set([ this.model ], { merge: true, add: true, remove: false });

@@ -65,8 +65,12 @@
         </h1>
         <p>
             ISBN
+            <% if (isNew) { %>
             <input type="text" name="isbn" value="<%- isbn %>"/>
             <span class="errorMessage"></span>
+            <% } else { %>
+            <%- isbn %>
+            <% } %>
         </p>
         <p>
             Title
