@@ -1,4 +1,4 @@
-var BookView =  Backbone.View.extend({
+var BookListItemView =  Backbone.View.extend({
     el: "<tr>",
 
     template: _.template($("#book-template").html()),
@@ -15,7 +15,7 @@ var BookView =  Backbone.View.extend({
     },
 
     editBook: function() {
-        window.app.navigate("books/" + this.model.get("isbn") + "/edit", { trigger: true, replace: true });
+        window.app.navigate("books/" + this.model.get("isbn") + "/edit", { trigger: true });
     },
 
     removeBook: function() {

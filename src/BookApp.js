@@ -36,9 +36,7 @@ var BookApp = Backbone.Router.extend({
 
         var model = new BookModel();
 
-        this.books.add(model);
-
-        this.activeView = new EditBookView({ model: model });
+        this.activeView = new EditBookView({ model: model, collection: this.books });
 
         $("body").html(this.activeView.render().$el);
     },
@@ -49,7 +47,7 @@ var BookApp = Backbone.Router.extend({
         var model = this.books.get(isbn);
 
         if (model) {
-            this.activeView = new EditBookView({model: model});
+            this.activeView = new EditBookView({ model: model, collection: this.books });
 
             $("body").html(this.activeView.render().$el);
         } else {

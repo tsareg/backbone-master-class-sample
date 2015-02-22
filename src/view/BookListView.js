@@ -8,8 +8,6 @@ var BookCollectionView = Backbone.View.extend({
     initialize: function() {
         this._subviews = [];
 
-        this.listenTo(this.collection, "reset", this.render);
-        this.listenTo(this.collection, "add", this.addSubview);
         this.listenTo(this.collection, "remove", this.removeSubview);
     },
 
@@ -23,7 +21,7 @@ var BookCollectionView = Backbone.View.extend({
     },
 
     addSubview: function(model) {
-        var view = new BookView({ model: model });
+        var view = new BookListItemView({ model: model });
         this.$("tbody").append(view.render().$el);
         this._subviews.push(view);
     },
@@ -39,7 +37,7 @@ var BookCollectionView = Backbone.View.extend({
     },
 
     addNewBook: function() {
-        window.app.navigate("books/new", {trigger: true, replace: true});
+        window.app.navigate("books/new", {trigger: true});
     },
 
     remove: function() {
