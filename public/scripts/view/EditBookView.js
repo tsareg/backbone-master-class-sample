@@ -12,6 +12,12 @@ var EditBookView = Backbone.View.extend({
             forceUpdate: true,
             selector: "name"
         });
+
+        if (!this.model.isNew()) {
+            this.model.fetch().done(_.bind(this.render, this));
+        } else {
+            this.render();
+        }
     },
 
     render: function() {
@@ -21,21 +27,17 @@ var EditBookView = Backbone.View.extend({
     },
 
     saveBook: function() {
-        var obj = {
+        this.model.set({
             title: this.$("input[name='title']").val(),
             author: this.$("input[name='author']").val()
-        };
-
-        if (this.$("input[name='isbn']").length) {
-            obj.isbn = this.$("[name='isbn']").val();
-        }
-
-        this.model.set(obj);
+        });
 
         if (this.model.isValid(true)) {
-            this.collection.set([ this.model ], { merge: true, add: true, remove: false });
-
-            window.app.navigate("books", {trigger: true});
+            this.model.save().done(function() {
+                window.app.navigate("books", {trigger: true});
+            });
+        } else {
+            this.model.set(this.model.previousAttributes(), { silent: true });
         }
     },
 

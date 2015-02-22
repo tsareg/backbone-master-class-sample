@@ -1,4 +1,4 @@
-var BookCollectionView = Backbone.View.extend({
+var BookListView = Backbone.View.extend({
     template: $("#book-collection-template").html(),
 
     events: {
@@ -8,7 +8,13 @@ var BookCollectionView = Backbone.View.extend({
     initialize: function() {
         this._subviews = [];
 
+        this.collection = new BookCollection();
+
+        this.collection.fetch({ reset: true });
+
         this.listenTo(this.collection, "remove", this.removeSubview);
+        this.listenTo(this.collection, "add", this.addSubview);
+        this.listenTo(this.collection, "reset", this.render);
     },
 
     removeSubview: function(model) {

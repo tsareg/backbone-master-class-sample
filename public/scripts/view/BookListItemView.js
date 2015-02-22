@@ -15,10 +15,10 @@ var BookListItemView =  Backbone.View.extend({
     },
 
     editBook: function() {
-        window.app.navigate("books/" + this.model.get("isbn") + "/edit", { trigger: true });
+        window.app.navigate("books/" + this.model.get("id") + "/edit", { trigger: true });
     },
 
     removeBook: function() {
-        this.model.collection.remove(this.model);
+        this.model.destroy({ wait: true });
     }
 });

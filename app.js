@@ -4,16 +4,18 @@ var app = express();
 
 var books = [
     {
-        isbn: "978-1449328252",
+        id: 1,
         title: "Developing Backbone.js Applications",
         author: "Addy Osmani"
     },
     {
-        isbn: "978-0-596-10199-2",
+        id: 2,
         title: "JavaScript: The Definitive Guide, 5th Edition",
         author: "David Flanagan"
     }
 ];
+
+var nextId = 3;
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -31,8 +33,8 @@ app.get('/api/books', function(req, res) {
     res.json(books);
 });
 
-app.get('/api/books/:isbn', function(req, res) {
-    var book = books.filter(function(book) { return book.isbn === req.params.isbn; })[0];
+app.get('/api/books/:id', function(req, res) {
+    var book = books.filter(function(book) { return book.id == req.params.id; })[0];
 
     if(!book) {
         res.statusCode = 404;
@@ -43,9 +45,7 @@ app.get('/api/books/:isbn', function(req, res) {
 });
 
 app.post('/api/books', function(req, res) {
-    if(!req.body.hasOwnProperty('author') ||
-        !req.body.hasOwnProperty('title') ||
-        !req.body.hasOwnProperty('isbn')) {
+    if(!req.body.author || !req.body.title) {
         res.statusCode = 400;
         return res.json({ msg: "Invalid params sent" });
     }
@@ -53,7 +53,7 @@ app.post('/api/books', function(req, res) {
     var newBook = {
         author : req.body.author,
         title : req.body.title,
-        isbn: req.body.isbn
+        id: nextId++
     };
 
     books.push(newBook);
@@ -61,14 +61,13 @@ app.post('/api/books', function(req, res) {
     res.json(newBook);
 });
 
-app.put('/api/books/:isbn', function(req, res) {
-    if(!req.body.hasOwnProperty('author') ||
-        !req.body.hasOwnProperty('title')) {
+app.put('/api/books/:id', function(req, res) {
+    if(!req.body.author || !req.body.title) {
         res.statusCode = 400;
         return res.json({ msg: "Invalid params sent" });
     }
 
-    var book = books.filter(function(book) { return book.isbn === req.params.isbn; })[0];
+    var book = books.filter(function(book) { return book.id == req.params.id; })[0];
 
     if(!book) {
         res.statusCode = 404;
@@ -81,15 +80,15 @@ app.put('/api/books/:isbn', function(req, res) {
     res.json(book);
 });
 
-app.delete('/api/books/:isbn', function(req, res) {
-    var book = books.filter(function(book) { return book.isbn === req.params.isbn; })[0];
+app.delete('/api/books/:id', function(req, res) {
+    var book = books.filter(function(book) { return book.id == req.params.id; })[0];
 
     if(!book) {
         res.statusCode = 404;
         return res.json({ msg: "Book does not exist" });
     }
 
-    books = books.slice(books.indexOf(book), 1);
+    books.splice(books.indexOf(book), 1);
 
     res.statusCode = 204;
     res.send({});

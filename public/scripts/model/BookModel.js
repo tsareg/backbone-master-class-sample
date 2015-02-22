@@ -1,18 +1,13 @@
 var BookModel = Backbone.Model.extend({
-    idAttribute: "isbn",
+    urlRoot: "/api/books",
 
     defaults: {
-        isbn: undefined,
+        id: undefined,
         author: undefined,
         title: undefined
     },
 
     validation: {
-        isbn: [
-            {
-                required: true
-            }
-        ],
         author: [
             {
                 required: true

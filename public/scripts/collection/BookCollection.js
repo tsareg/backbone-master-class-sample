@@ -1,3 +1,5 @@
 var BookCollection = Backbone.Collection.extend({
-    model: BookModel
+    model: BookModel,
+
+    url: "/api/books"
 });

@@ -36,7 +36,6 @@
         <h1>Books</h1>
         <table class="bookTable">
             <thead>
-                <th>ISBN</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th colspan="2"></th>
@@ -49,7 +48,6 @@
     </script>
 
     <script type="text/template" id="book-template">
-        <td><%- isbn %></td>
         <td><%- title %></td>
         <td><%- author %></td>
         <td><button class="editBook">Edit Book</button></td>
@@ -63,15 +61,6 @@
                 Edit book
             <% } %>
         </h1>
-        <p>
-            ISBN
-            <% if (isNew) { %>
-            <input type="text" name="isbn" value="<%- isbn %>"/>
-            <span class="errorMessage"></span>
-            <% } else { %>
-            <%- isbn %>
-            <% } %>
-        </p>
         <p>
             Title
             <input type="text" name="title" value="<%- title %>"/>
